@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="jquery-2.1.0.js"></script>
+		<script type="text/javascript">
+
+			// call android activity
+			function sendQueryToAndroid(msg) {
+				Android.getQueryFromWeb(msg);
+			}
+			
+			// after android activity worked
+			function getResultfromAndroid(msg) {
+				//console.log("msg:"+msg);
+				
+				var jsonResult = JSON.parse(msg);
+				console.log("jsonResult[0][0]:"+jsonResult[0][0]);
+				console.log("jsonResult[1][0]:"+jsonResult[1][0]);
+
+
+				$("#tResult > thead").html("");
+				var headData = "<tr>";
+				for(var i=0; i<jsonResult[0].length; i++) {
+					headData += "<th>"+jsonResult[0][i]+"</th>";
+				}
+				headData += "</tr>";
+				$("#tResult > thead").append(headData);
+
+				$("#tResult > tbody").html("");
+				var bodyData = "";
+				for(var i=0; i<jsonResult[1].length; i++) {
+					bodyData += "<tr>";
+					for(var j=0; j<jsonResult[1][i].length; j++) {
+						bodyData += "<td>"+jsonResult[1][i][j]+"</td>";
+					}
+					bodyData += "</tr>";
+				}
+				
+				$("#tResult > tbody").append(bodyData);
+
+				//$("#result").html(msg.toString());
+			}
+			
+		</script>
+		<style>
+			#searchOptionTitle {
+				background-color: #cccccc;
+				text-align:center;
+				font-size:150%;
+			}
+
+			#searchButtonTitle {
+				background-color: #cccccc;
+				text-align:center;
+				font-size:120%;
+			}
+
+			tr:nth-child(even) {
+				background-color: #DDDDFF;
+			}
+
+			tr:nth-child(odd) {
+				background-color: #FFFFFF;
+			}
+
+			thead tr:first-child {
+				background-color: #AAAAFF;
+			}
+
+			.option	{
+				border-bottom-style: solid;
+			}
+
+			#result {
+				padding: 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="searchOptionTitle">Search Option</div>
+		<div id="searchOption">
+			<div class="option">
+				<label><input type="checkbox" id="chkbFlowes" />flowers</label><br/>
+				<span id="flowersOption">
+					keyword:<input type="text" id="tbFlowes" /> <br/>
+					<label><input type="checkbox" id="chkbFlowesTH" checked/>TH</label><br/>
+					<label><input type="checkbox" id="chkbFlowesEN" checked/>EN</label><br/>
+				</span>
+			</div>
+			<div class="option">
+				<label><input type="checkbox" id="chkbImageOfProvince" />imageOfProvince</label><br/>
+				<span id="imageOfProvinceOption">
+					keyword:<input type="text" id="tbImageOfProvince" /> <br/>
+				</span>
+			</div>
+			<div class="option">
+				<label><input type="checkbox" id="chkbMotto" />motto</label><br/>
+				<span id="mottoOption">
+					keyword:<input type="text" id="tbMotto" /> <br/>
+					<label><input type="checkbox" id="chkbMottoTH" checked/>TH</label><br/>
+					<label><input type="checkbox" id="chkbMottoEN" checked/>EN</label><br/>
+				</span>
+			</div>
+			<div class="option">
+				<label><input type="checkbox" id="chkbNameOfProvince" />nameOfProvince</label><br/>
+				<span id="nameOfProvinceOption">
+					keyword:<input type="text" id="tbNameOfProvince" /> <br/>
+					<label><input type="checkbox" id="chkbNameOfProvinceTH" checked/>TH</label><br/>
+					<label><input type="checkbox" id="chkbNameOfProvinceEN" checked/>EN</label><br/>
+				</span>
+			</div>
+			<div class="option">
+				<label><input type="checkbox" id="chkbSeals" />seals</label><br/>
+				<span id="sealsOption">
+					keyword:<input type="text" id="tbSeals" /> <br/>
+					<label><input type="checkbox" id="chkbSealsTH" checked/>TH</label><br/>
+					<label><input type="checkbox" id="chkbSealsEN" checked/>EN</label><br/>
+				</span>
+			</div>
+			<div class="option">
+				<label><input type="checkbox" id="chkbTraditionalNameOfProvince" />traditionalNameOfProvince</label><br/>
+				<span id="traditionalNameOfProvinceOption">
+					keyword:<input type="text" id="tbTraditionalNameOfProvince" /> <br/>
+					<label><input type="checkbox" id="chkbTraditionalNameOfProvinceTH" checked/>TH</label><br/>
+					<label><input type="checkbox" id="chkbTraditionalNameOfProvinceEN" checked/>EN</label><br/>
+				</span>
+			</div>
+			<div class="option">
+				<label><input type="checkbox" id="chkbTree" />tree</label><br/>
+				<span id="treeOption">
+					keyword:<input type="text" id="tbTree" /> <br/>
+					<label><input type="checkbox" id="chkbTreeTH" checked/>TH</label><br/>
+					<label><input type="checkbox" id="chkbTreeEN" checked/>EN</label><br/>
+				</span>
+			</div>
+			<div class="option">
+				<label><input type="checkbox" id="chkbURLOfProvince" />URLOfProvince</label><br/>
+				<span id="URLOfProvinceOption">
+					keyword:<input type="text" id="tbURLOfProvince" /> <br/>
+				</span>
+			</div>
+			<div id="searchButtonTitle">
+				<button  id="searchButton">Search</button>
+			</div>
+			<script type="text/javascript">
+				$("#flowersOption").hide();
+				$("#imageOfProvinceOption").hide();
+				$("#mottoOption").hide();
+				$("#nameOfProvinceOption").hide();
+				$("#sealsOption").hide();
+				$("#traditionalNameOfProvinceOption").hide();
+				$("#treeOption").hide();
+				$("#URLOfProvinceOption").hide();
+
+				$('#searchOptionTitle').click(function () {
+					$("#searchOption").slideToggle();
+				});
+				
+				$('#chkbFlowes').click(function () {
+					$("#flowersOption").fadeToggle();
+				});
+
+				$('#chkbImageOfProvince').click(function () {
+					$("#imageOfProvinceOption").fadeToggle();
+				});
+
+				$('#chkbMotto').click(function () {
+					$("#mottoOption").fadeToggle();
+				});
+
+				$('#chkbNameOfProvince').click(function () {
+					$("#nameOfProvinceOption").fadeToggle();
+				});
+
+				$('#chkbSeals').click(function () {
+					$("#sealsOption").fadeToggle();
+				});
+
+				$('#chkbTraditionalNameOfProvince').click(function () {
+					$("#traditionalNameOfProvinceOption").fadeToggle();
+				});
+
+				$('#chkbTree').click(function () {
+					$("#treeOption").fadeToggle();
+				});
+
+				$('#chkbURLOfProvince').click(function () {
+					$("#URLOfProvinceOption").fadeToggle();
+				});
+
+				$('#searchButton').click(function () {
+					//$("#searchOption").slideToggle();
+					var searchKey = new Array();
+
+					// check flowers
+					if($("#chkbFlowes").is(':checked')) {
+						var flowers = new Object();
+						flowers.label = "flowers";
+						flowers.keyword = $("#tbFlowes").val();
+						flowers.nameInDB = "hasFlowers";
+						if($("#chkbFlowesTH").is(':checked') && $("#chkbFlowesEN").is(':checked')) {
+							flowers.language = "TH&EN";
+						} else if($("#chkbFlowesTH").is(':checked')) {
+							flowers.language = "TH";
+						} else if($("#chkbFlowesEN").is(':checked')) {
+							flowers.language = "EN";
+						}
+						searchKey.push(flowers);
+						console.log(JSON.stringify(flowers));
+					}
+
+					// check imageOfProvince
+					if($("#chkbImageOfProvince").is(':checked')) {
+						var imageOfProvince = new Object();
+						imageOfProvince.label = "imageOfProvince";
+						imageOfProvince.keyword = $("#tbImageOfProvince").val();
+						imageOfProvince.nameInDB = "hasImageOfProvince";
+						searchKey.push(imageOfProvince);
+						console.log(JSON.stringify(imageOfProvince));
+					}
+
+					// check motto
+					if($("#chkbMotto").is(':checked')) {
+						var motto = new Object();
+						motto.label = "motto";
+						motto.keyword = $("#tbMotto").val();
+						motto.nameInDB = "hasMotto";
+						if($("#chkbMottoTH").is(':checked') && $("#chkbMottoEN").is(':checked')) {
+							motto.language = "TH&EN";
+						} else if($("#chkbMottoTH").is(':checked')) {
+							motto.language = "TH";
+						} else if($("#chkbMottoEN").is(':checked')) {
+							motto.language = "EN";
+						}
+						searchKey.push(motto);
+						console.log(JSON.stringify(motto));
+					}
+
+					// check nameOfProvince
+					if($("#chkbNameOfProvince").is(':checked')) {
+						var nameOfProvince = new Object();
+						nameOfProvince.label = "nameOfProvince";
+						nameOfProvince.keyword = $("#tbNameOfProvince").val();
+						nameOfProvince.nameInDB = "hasNameOfProvince";
+						if($("#chkbNameOfProvinceTH").is(':checked') && $("#chkbNameOfProvinceEN").is(':checked')) {
+							nameOfProvince.language = "TH&EN";
+						} else if($("#chkbNameOfProvinceTH").is(':checked')) {
+							nameOfProvince.language = "TH";
+						} else if($("#chkbNameOfProvinceEN").is(':checked')) {
+							nameOfProvince.language = "EN";
+						}
+						searchKey.push(nameOfProvince);
+						console.log(JSON.stringify(nameOfProvince));
+					}
+
+					// check seals
+					if($("#chkbSeals").is(':checked')) {
+						var seals = new Object();
+						seals.label = "seals";
+						seals.keyword = $("#tbSeals").val();
+						seals.nameInDB = "hasSeals";
+						if($("#chkbSealsTH").is(':checked') && $("#chkbSealsEN").is(':checked')) {
+							seals.language = "TH&EN";
+						} else if($("#chkbSealsTH").is(':checked')) {
+							seals.language = "TH";
+						} else if($("#chkbSealsEN").is(':checked')) {
+							seals.language = "EN";
+						}
+						searchKey.push(seals);
+						console.log(JSON.stringify(seals));
+					}
+
+					// check traditionalNameOfProvince
+					if($("#chkbTraditionalNameOfProvince").is(':checked')) {
+						var traditionalNameOfProvince = new Object();
+						traditionalNameOfProvince.label = "traditionalNameOfProvince";
+						traditionalNameOfProvince.keyword = $("#tbTraditionalNameOfProvince").val();
+						traditionalNameOfProvince.nameInDB = "hasTraditionalNameOfProvince";
+						if($("#chkbTraditionalNameOfProvinceTH").is(':checked') && $("#chkbTraditionalNameOfProvinceEN").is(':checked')) {
+							traditionalNameOfProvince.language = "TH&EN";
+						} else if($("#chkbTraditionalNameOfProvinceTH").is(':checked')) {
+							traditionalNameOfProvince.language = "TH";
+						} else if($("#chkbTraditionalNameOfProvinceEN").is(':checked')) {
+							traditionalNameOfProvince.language = "EN";
+						}
+						searchKey.push(traditionalNameOfProvince);
+						console.log(JSON.stringify(traditionalNameOfProvince));
+					}
+
+					// check tree
+					if($("#chkbTree").is(':checked')) {
+						var tree = new Object();
+						tree.label = "tree";
+						tree.keyword = $("#tbTree").val();
+						tree.nameInDB = "hasImageOfProvince";
+						if($("#chkbTreeTH").is(':checked') && $("#chkbTreeEN").is(':checked')) {
+							tree.language = "TH&EN";
+						} else if($("#chkbTreeTH").is(':checked')) {
+							tree.language = "TH";
+						} else if($("#chkbTreeEN").is(':checked')) {
+							tree.language = "EN";
+						}
+						searchKey.push(tree);
+						console.log(JSON.stringify(tree));
+					}
+
+					// check URLOfProvince
+					if($("#chkbURLOfProvince").is(':checked')) {
+						var URLOfProvince = new Object();
+						URLOfProvince.label = "URLOfProvince";
+						URLOfProvince.keyword = $("#tbURLOfProvince").val();
+						URLOfProvince.nameInDB = "hasImageOfProvince";
+						searchKey.push(URLOfProvince);
+						console.log(JSON.stringify(URLOfProvince));
+					}
+
+					console.log("all: "+JSON.stringify(searchKey));
+
+					sendQueryToAndroid(JSON.stringify(searchKey))
+				});
+			</script>
+		</div>
+		<hr/>
+		<div id="result">
+			<table id="tResult" border="1">
+				<thead>
+				</thead>
+				<tbody>
+				</tbody>
+				<tfoot>
+				</tfoot>
+			</table>
+		</div>
+	</body>
+</html>
